@@ -4,13 +4,28 @@ const Header = ({title}) => {
     );
 };
 
+const Part = ({subject, counter}) => {
+
+    return (
+        <>
+           <p> {subject} {counter} </p>
+        </>
+    );
+};
+
 const Contents = ({subjects, counters}) => {
 
     return (
         <div>
-            <p> {subjects[0]} {counters[0]} </p>
-            <p> {subjects[1]} {counters[1]} </p>
-            <p> {subjects[2]} {counters[2]} </p>
+            <Part
+                subject={subjects[0]}
+                counter={counters[0]} />
+            <Part
+                subject={subjects[1]}
+                counter={counters[1]} />
+            <Part
+                subject={subjects[2]}
+                counter={counters[2]} />
         </div>
     );
 };
