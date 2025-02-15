@@ -8,6 +8,16 @@ function getNewRandomInt(max, current) {
     return rand;
 }
 
+const AnecdoteShowcase = ({title, anecdote, votes}) => {
+    return (
+        <div>
+            <h1> {title} </h1>
+            <p> {anecdote} </p>
+            <p> has {votes} votes </p>
+        </div>
+    );
+};
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -31,21 +41,31 @@ const App = () => {
         mockVotes[selected] += 1;
         return setVotes(mockVotes);
     };
+
+    let highestVote = 0;
+    let mostVoted = 0;
+    votes.forEach((vote, index) => {
+        if (vote > highestVote) {
+            highestVote = vote;
+            mostVoted = index;
+        }
+    });
     
     return (
         <div>
-            <div>
-                {anecdotes[selected]}
-                <br />
-                has {votes[selected]} votes
-            </div>
+            <AnecdoteShowcase
+                title={'Anecdote of the Day'}
+                anecdote={anecdotes[selected]}
+                votes={votes[selected]} />
 
-            <div>
-                <button onClick={addVote}> vote </button>
-
-                <button onClick={() =>
+            <button onClick={addVote}> vote </button>
+            <button onClick={() =>
                 setSelected(getNewRandomInt(anecdoteLen, selected))}> next anecdote </button>
-            </div>
+
+            <AnecdoteShowcase
+                title={'Anecdote with the most votes'}
+                anecdote={anecdotes[mostVoted]}
+                votes={votes[mostVoted]} />
         </div>
     );
 };
