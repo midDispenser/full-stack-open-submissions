@@ -8,7 +8,6 @@ function getNewRandomInt(max, current) {
     return rand;
 }
 
-
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -24,10 +23,26 @@ const App = () => {
     const [selected, setSelected] = useState(0);
     const anecdoteLen = anecdotes.length;
 
+    const initialVotes = Array(anecdoteLen).fill(0);
+    const [votes, setVotes] = useState(initialVotes);
+    
+    const addVote = () => {
+        const mockVotes = [...votes];
+        mockVotes[selected] += 1;
+        return setVotes(mockVotes);
+    };
+    
     return (
         <div>
-            <div> {anecdotes[selected]} </div>
             <div>
+                {anecdotes[selected]}
+                <br />
+                has {votes[selected]} votes
+            </div>
+
+            <div>
+                <button onClick={addVote}> vote </button>
+
                 <button onClick={() =>
                 setSelected(getNewRandomInt(anecdoteLen, selected))}> next anecdote </button>
             </div>
