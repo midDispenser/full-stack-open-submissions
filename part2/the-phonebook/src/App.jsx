@@ -17,16 +17,24 @@ function PersonData ({ name }) {
 const App = () => {
     const [persons, setPersons] = useState([{ id:0, name: 'John Doe' }]);
     const [newName, setNewName] = useState('');
-
+    
     const addName = (event) => {
         event.preventDefault();
-        
+
+        const isDupe = persons.some((p) => p.name === newName);
+        if(isDupe) {
+            alert(`${newName} is already added to phonebook`);
+            setNewName('');
+            return;
+        }
+
         const newPerson = {
             id: Math.floor(Math.random() * 100),
             name: newName,
         };
 
         setPersons(persons.concat(newPerson));
+        setNewName('');
     };
 
     return (
