@@ -5,26 +5,28 @@ import axios from 'axios';
 const PersonForm = ({persons, setPersons}) => {
     const [newPhone, setNewPhone] = useState('');
     const [newName, setNewName] = useState('');
-    
-    const addPerson = (event) => {
-        event.preventDefault();
 
-        const dupeName = persons.some((p) => p.name === newName);
-        if(dupeName) {
-            alert(`The name ${newName} is already added to phonebook`);
-            setNewName('');
-            return;
+    const editPhone = (dupe) => {
+        // reusing inefficient duplicated code for simplicity
+ 
+        if (dupe) {
+            const updatedPerson = {
+                name: dupe.name,
+                number: newPhone,
+            };
+
+            personService
+                .update(dupe.id, updatedPerson)
+                .then(updated => {
+                    setPersons(persons.map(curr => curr.id === dupe.id ? updated : curr));
+                    setNewName('');
+                    setNewPhone('');
+                });
         }
-        // Im aware duplicating this means going through the array twice over,
-        // a more efficient option would be to use either a filter, a forEach
-        // or make a separate function. however, for now this is simpler for me.
-        const dupePhone = persons.some((p) => p.number === newPhone);
-        if (dupePhone) {
-            alert(`The number ${newPhone} is already added to phonebook`);
-            setNewPhone('');
-            return;
-        };
+    };
 
+    const addPerson = () => {
+        console.log("sex");
         const newPerson = {
             name: newName,
             number: newPhone,
@@ -38,6 +40,27 @@ const PersonForm = ({persons, setPersons}) => {
                 setNewPhone('');
             });
         
+    };
+
+    const insertHandler = (event) => {
+        event.preventDefault();
+
+        const dupePhone = persons.some((p) => p.number === newPhone && p.name === newName);
+        if (dupePhone) {
+            alert(`The registry "${newName}: ${newPhone}" is already added to phonebook`);
+            setNewName('');
+            setNewPhone('');
+            return;
+        };
+
+        const dupe = persons.find(({ name }) => name === newName);
+        if (dupe && window.confirm(`${dupe?.name} is already added to the phonebook, ` +
+            `replace the old number with ${newPhone}?`)) {
+                editPhone(dupe);
+                return;
+        };
+
+        if(!dupe) addPerson();
     };
 
     return (
@@ -55,7 +78,7 @@ const PersonForm = ({persons, setPersons}) => {
             </div>
             
             <div>
-                <button type="submit" onClick={addPerson}>add</button>
+                <button type="submit" onClick={insertHandler}>add</button>
             </div>
         </form>
     );
