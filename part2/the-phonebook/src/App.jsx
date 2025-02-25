@@ -1,15 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios'
 import PeopleList from './components/PeopleList.jsx';
 import SearchBar from './components/SearchBar.jsx';
 import PersonForm from './components/PersonForm.jsx';
 
 const App = () => {
     const [persons, setPersons] = useState([
-        { name: 'Arto Hellas',  number: '040-123456',    id: 1 },
-        { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
-        { name: 'Dan Abramov',  number: '12-43-234345',  id: 3 },
-        { name: 'Mary Poppeck', number: '39-23-6423122', id: 4 }
+        { name: 'Loading',  number: '...',    id: 1 },
     ]);
+    
+    useEffect(()=>{
+        axios.get('http://localhost:3001/persons').then((response) =>{
+            console.log('initializing axios get');
+            setPersons(response.data);
+        });
+    }, []);
 
     const [query, setQuery] = useState('');
     
