@@ -33,10 +33,7 @@ const PersonForm = ({persons, setPersons}) => {
         personService
             .create(newPerson)
             .then(response => {
-                console.log('people', persons);
-                console.log('respons', response);
                 setPersons(persons.concat(response));
-                console.log('result', persons);
                 setNewName('');
                 setNewPhone('');
             });
@@ -50,14 +47,13 @@ const PersonForm = ({persons, setPersons}) => {
                 <input name='nameInput' value={newName}
                     onChange={(e) => setNewName(e.target.value)} />
             </div>
+            
             <div>
                 <label htmlFor='nameInput'>number: </label>
                 <input name='phoneInput' value={newPhone} type="tel"
                     onChange={(e) => setNewPhone(e.target.value)} />
             </div>
-            <div>debug: {newName}</div>
-            <div>debug: {newPhone}</div>
-
+            
             <div>
                 <button type="submit" onClick={addPerson}>add</button>
             </div>

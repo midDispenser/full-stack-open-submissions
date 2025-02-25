@@ -32,7 +32,7 @@ const App = () => {
             <PersonForm persons={persons} setPersons={setPersons} />
 
             <h2>Numbers</h2>
-            <PeopleList people={(query == '') ? persons:persons.filter(insideQuery)}/>
+            <PeopleList people={persons} setPeople={setPersons} query={query}/>
         </div>
     );
 };

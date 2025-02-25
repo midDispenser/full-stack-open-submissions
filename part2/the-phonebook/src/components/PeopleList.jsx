@@ -1,11 +1,15 @@
 import PersonData from './PersonData.jsx';
 
-function PeopleList ({ people }){
+function PeopleList ({ people, setPeople, query }){
+
+    const filteredPeople = (query == '') ? people:people.filter(insideQuery);
+
     return (
         <div>
-            {people.map(p =>
-                <PersonData key={p.id}
-                    name={p.name} phone={p.number} />
+            {filteredPeople.map(p =>
+                <PersonData key={p.id} id={p.id}
+                    name={p.name} phone={p.number}
+                    people={people} setPeople={setPeople} />
             )}
         </div>
     );
