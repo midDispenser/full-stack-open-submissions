@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const PersonForm = ({persons, setPersons}) => {
     const [newPhone, setNewPhone] = useState('');
     const [newName, setNewName] = useState('');
-
+    
     const addPerson = (event) => {
         event.preventDefault();
 
@@ -21,17 +22,20 @@ const PersonForm = ({persons, setPersons}) => {
             alert(`The number ${newPhone} is already added to phonebook`);
             setNewPhone('');
             return;
-        }
+        };
 
         const newPerson = {
-            id: Math.floor(Math.random() * 100),
             name: newName,
             number: newPhone,
         };
 
-        setPersons(persons.concat(newPerson));
-        setNewName('');
-        setNewPhone('');
+        axios.post('http://localhost:3001/persons', newPerson)
+            .then(response => {
+                setPersons(persons.concat(response.data));
+                setNewName('');
+                setNewPhone('');
+            });
+        
     };
 
     return (
