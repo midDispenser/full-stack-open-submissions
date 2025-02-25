@@ -18,8 +18,8 @@ const App = () => {
     }, []);
 
     const [query, setQuery] = useState('');
-    
     const insideQuery = (person) => person.name.toLowerCase().includes(query);
+    const filteredPeople = (query === '') ? persons:persons.filter(insideQuery);
 
     return (
         <div>
@@ -32,7 +32,7 @@ const App = () => {
             <PersonForm persons={persons} setPersons={setPersons} />
 
             <h2>Numbers</h2>
-            <PeopleList people={persons} setPeople={setPersons} query={query}/>
+            <PeopleList people={persons} setPeople={setPersons} query={filteredPeople}/>
         </div>
     );
 };
