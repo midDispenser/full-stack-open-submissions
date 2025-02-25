@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios'
+import personService from './services/persons.js';
 import PeopleList from './components/PeopleList.jsx';
 import SearchBar from './components/SearchBar.jsx';
 import PersonForm from './components/PersonForm.jsx';
@@ -10,10 +10,11 @@ const App = () => {
     ]);
     
     useEffect(()=>{
-        axios.get('http://localhost:3001/persons').then((response) =>{
-            console.log('initializing axios get');
-            setPersons(response.data);
-        });
+        personService
+            .getAll()
+            .then(initialPeople => {
+                setPersons(initialPeople);
+            });
     }, []);
 
     const [query, setQuery] = useState('');
